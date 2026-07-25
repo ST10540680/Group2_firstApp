@@ -4,12 +4,15 @@ import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>welcome to my app!</Text>
-      <text>Enter your name:</text>
-      <TextInput placeholder = "Jane"/>
-      <text>Enter your surname:</text>
-      <TextInput placeholder = "Doe"/>
+    <View>
+      <Text style={styles.welcomeTxt}>welcome to my app!</Text>
+      
+     <View style={styles.inputFlex}>
+      <text style= {styles.headingTxt}>Enter your name:</text>
+      <TextInput style={styles.inputBoxTxt} placeholder = "Helder"/>
+      <text style={styles.headingTxt}>Enter your surname:</text>
+      <TextInput style={styles. inputBoxTxt}placeholder = "Filipe"/>
+     </View> 
 
       <Button title= "Add User"/>
 
@@ -19,10 +22,19 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+  welcomeTxt: {
+    paddingTop: 50,
+    color: "blue",
+    fontWeight: 'bold',
+    fontSize: 30,
+    textAlign: 'center'
   },
+
+  headingTxt: {
+    fontWeight: 'bold',
+  },
+
+  inputBoxTxt: {
+
+  }
 });
