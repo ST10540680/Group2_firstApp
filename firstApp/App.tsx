@@ -1,13 +1,17 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, Image } from 'react-native';
 
 
 export default function App() {
   return (
     <View>
+
+      <Image style={styles.mainImg}
+      source={require('./images/cupcake.jpg')}/>
+
       <Text style={styles.welcomeTxt}>welcome to my app!</Text>
       
-     <View style={styles.inputFlex}>
+     <View style={styles.InputFlex}>
       <text style= {styles.headingTxt}>Enter your name:</text>
       <TextInput style={styles.inputBoxTxt} placeholder = "Helder"/>
       <text style={styles.headingTxt}>Enter your surname:</text>
@@ -36,5 +40,19 @@ const styles = StyleSheet.create({
 
   inputBoxTxt: {
 
-  }
+  },
+
+  mainImg: {
+    paddingTop: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 250,
+    height: 250
+  },
+
+  InputFlex:{
+    flexDirection:'row',
+    marginTop: 30,
+    justifyContent: 'space-evenly'
+  },
 });
