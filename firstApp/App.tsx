@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TextInput, Button, Image, SafeAreaView, ScrollV
 import {Children, ReactNode, useEffect, useRef, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator, NativeStackScreenProps} from '@react-navigation/native-Stack;
+import { ImageSourcePropType } from 'react-native/types_generated/index';
 
 type RootStackParamList = {
   Home: Undefined;
@@ -95,6 +96,16 @@ function ViewDetails ({ navigation, route }: ViewDetailsProps){
   
   const NameGet = route.params.NameSend;
   const SurnameGet = route.params.surnameSend;
+
+  const[iSelected, setIntValue]=useState(0);
+  const[iSelected, setSelectedValue]=useState('0');
+
+  const [blockArray] = useState<ImageSourcePropType[]>([
+    undefined
+    require('./images/react.native.png'),
+    require('./images/kotlin.png'),
+    require('./html.css.jpg'),
+  ]);
 
   return (
     <view style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
