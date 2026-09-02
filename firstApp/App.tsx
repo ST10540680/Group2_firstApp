@@ -11,6 +11,7 @@ type RootStackParamList = {
     NameSend: string;
     SurnameSend: string;
   };
+  ListSkills: undefined;
 };
 
   const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -25,12 +26,18 @@ type RootStackParamList = {
     'View'
   >;
 
+  type ListSkillsProps = NativeStackScreenProps<
+    RootStackParamList,
+    'ListSkills'
+    >;
+
 export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name = "Home" component ={Mainscreen}/>
         <Stack.Screen name = "View" component ={ViewDetails}/>
+        <Stack.Screen name = "ListSkills" component ={ListSkills}/>
       </Stack.Navigator>
     </NavigationContainer>
   )
@@ -114,6 +121,56 @@ function ViewDetails ({ navigation, route }: ViewDetailsProps){
     </view>
   );
 };
+
+function ListSkills({navigation, route}: ListSkillsProps){
+  const [skills] = useState<string[]>([]);
+  const [txtSkill, setSkill] = useState('');
+
+  const renderSkills = () => {
+    const arrOutput = [];
+
+    for (let i = 0; i < Skills.length; i++){
+      arrOutput.push(
+        <Text style={styles.skillText}>
+          {skills[i]}
+        </Text>
+      )
+    }
+    return arrOutput;
+  }
+
+  return(
+    //entire app container for everything on the the page
+    <view style={styles.appContainer}>
+      <view>
+        {/* adding ability to scroll down to page */}
+        <SafeAreaView>
+          <ScrollView>
+            {/* assigning Both mainImg and BannerImg styles to our Image */}
+            <view style={styles.mainImg}>
+              <image style={styles.bannerImg}
+                     source={require('./images/banner.jpg')}/>
+            </view>
+            <text style={styles.welcomeTxt}>List your skills!</text>
+
+            {/* where the user types their skills */}
+            <view style={styles.inputContainer}>
+              <TextInput style={styles.textInput}
+                         placeholder= 'Enter your skills'
+                         onchangeText={newText => setSkill(newText)}
+              />
+            </view>
+
+            <view style={styles.inputContainer}>
+
+            </view>
+          </ScrollView>
+        </SafeAreaView>
+      </view>
+    </view>
+  )
+}
+
 function isEmpty(value: any) {
   return(
     (value === null) ||
@@ -191,5 +248,45 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 20,
     textAlign: "center",
+  },
+
+  bannerImg: {
+    height: 350,
+    alignContent: 'center'
+  },
+
+  inputContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent:'space-between',
+    alignItems: 'center',
+    marginBottom: 25,
+    borderBottomWidth: 1,
+    borderBottomColor: '#7d7d7d'
+  },
+
+  textInput:{
+    borderWidth: 1,
+    borderColor: '#fca4d1',
+    width: '70%',
+    margin: 7,
+    padding: 5
+  },
+
+  appContainer: {
+    flex: 1,
+    padding: 50,
+    paddingHorizontal: 15
+  },
+
+  skillContainer:{
+    flex: 5
+  },
+
+  skillText: {
+    fontSize: 15,
+    marginVertical: 5,
+    borderBottomWidth: 1,
+    borderBottomColor: '#8ad2ff'
   }
 });
