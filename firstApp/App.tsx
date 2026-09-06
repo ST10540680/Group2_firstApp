@@ -14,8 +14,10 @@ type RootStackParamList = {
   ListSkills: undefined;
 };
 
+  // This sets up the "navigator" which controls the switching of screens
   const Stack = createNativeStackNavigator<RootStackParamList>();
 
+  //this describes what information gets passed in each screen 
   type MainscreenProps = NativeStackScreenProps<
     RootStackParamList,
     'Home'
