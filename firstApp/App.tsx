@@ -2,8 +2,8 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput, Button, Image, SafeAreaView, ScrollView, Animated, ViewStyle, StyleProp} from 'react-native';
 import {Children, ReactNode, useEffect, useRef, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator, NativeStackScreenProps} from '@react-navigation/native-stack;
-import { ImageSourcePropType } from 'react-native/types_generated/index';
+import {createNativeStackNavigator, NativeStackScreenProps} from '@react-navigation/native-stack';
+import { ImageSourcePropType } from 'react-native';
 import {RadioButton} from 'react-native-paper';
 
 type RootStackParamList = {
@@ -87,7 +87,7 @@ function Mainscreen({navigation}: MainscreenProps){
       <FadeInView>
 
         {/* if the error is true it display in red if not then nothing */}
-        <Text style={Error? styles.redTxt: styles.blank}>
+        <Text style={Error ? styles.redTxt : styles.blank}>
           {Error? "Please enter your info": ""}
         </Text>
 
@@ -103,7 +103,7 @@ function Mainscreen({navigation}: MainscreenProps){
 
           <Text style={styles.headingTxt}>Enter your surname:</Text>
 
-          <TextInput style={styles. inputBoxTxt}
+          <TextInput style={styles.inputBoxTxt}
           placeholder = "Filipe"
           value={Surname}
           onChangeText={newText=> setSurname(capitalize(newText))}
@@ -116,7 +116,7 @@ function Mainscreen({navigation}: MainscreenProps){
       onPress= {() => {
 
         //Can only proceed if both the boxes have something typed in 
-        if (isEmpty(Name) || isEmpty(Surname) == false){
+        if (!isEmpty(Name) && !isEmpty(Surname)){
 
           //Proceed to the "View" screen and with the name and surname
           navigation.navigate('View', {
@@ -215,8 +215,8 @@ function ViewDetails ({ navigation, route }: ViewDetailsProps){
          <Button title = "Display"
             onPress={() => {setIntValue(Number (selectedValue));
          }}/>
-         <View style = {styles.container}>
-            <Image source={ blockArray[iSelected]} style ={styles. viewImage}></Image>
+        <View style={styles.container}>
+          <Image source={blockArray[iSelected]} style={styles.viewImage} />
          </View>
        </View>
    
@@ -244,41 +244,42 @@ function ListSkills({navigation, route}: ListSkillsProps){
 
   return(
     //entire app container for everything on the the page
-    <view style={styles.appContainer}>
-      <view>
+    <View style={styles.appContainer}>
+      <View>
         {/* adding ability to scroll down to page */}
         <SafeAreaView>
           <ScrollView>
             {/* assigning Both mainImg and BannerImg styles to our Image */}
-            <view style={styles.mainImg}>
-              <image style={styles.bannerImg}
-                     source={require('./images/banner.jpg')}/>
-            </view>
-            <text style={styles.welcomeTxt}>List your skills!</text>
+            <View style={styles.mainImg}>
+              <Image style={styles.bannerImg} source={require('./images/banner.jpg')} />
+            </View>
+            <Text style={styles.welcomeTxt}>List your skills!</Text>
 
             {/* where the user types their skills */}
-            <view style={styles.inputContainer}>
-              <TextInput style={styles.textInput}
-                         placeholder= 'Enter your skills'
-                         onchangeText={newText => setSkill(newText)}
+            <View style={styles.inputContainer}>
+              <TextInput
+                style={styles.textInput}
+                placeholder="Enter your skills"
+                onChangeText={(newText: string) => setSkill(newText)}
+                value={txtSkill}
               />
-            </view>
+            </View>
 
-            <view style={styles.inputContainer}>
+            <View style={styles.inputContainer}>
 
-            </view>
+            </View>
           </ScrollView>
         </SafeAreaView>
-      </view>
-    </view>
+      </View>
+    </View>
   )
 }
 
 function isEmpty(value: any) {
   return(
     (value === null) ||
-    (value .hasOwnProperty('length') && value. length === 0) ||
-    (value. constructor === Object && Object. keys(value).length === 0)
+    (value.hasOwnProperty && (value as any).length === 0) ||
+    (value.constructor === Object && Object.keys(value).length === 0)
   )
 };
 
@@ -391,5 +392,37 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     borderBottomWidth: 1,
     borderBottomColor: '#8ad2ff'
+  }
+  ,
+  /* missing styles referenced elsewhere */
+  blank: {},
+  radioContainer: {
+    marginTop: 20,
+    width: '100%',
+    paddingHorizontal: 20
+  },
+  radioGroup: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%'
+  },
+  radioButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 8
+  },
+  radioLabel: {
+    marginLeft: 6,
+    fontSize: 16
+  },
+  container: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20
+  },
+  viewImage: {
+    width: 200,
+    height: 200,
+    resizeMode: 'contain'
   }
 });
