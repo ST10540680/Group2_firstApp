@@ -2,12 +2,12 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput, Button, Image, SafeAreaView, ScrollView, Animated, ViewStyle, StyleProp} from 'react-native';
 import {Children, ReactNode, useEffect, useRef, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator, NativeStackScreenProps} from '@react-navigation/native-Stack;
+import {createNativeStackNavigator, NativeStackScreenProps} from '@react-navigation/native-stack;
 import { ImageSourcePropType } from 'react-native/types_generated/index';
-import {RadioButton} from 'react-native-paper'
+import {RadioButton} from 'react-native-paper';
 
 type RootStackParamList = {
-  Home: Undefined;
+  Home: undefined;
   View: {
     NameSend: string;
     SurnameSend: string;
@@ -98,7 +98,7 @@ function Mainscreen({navigation}: MainscreenProps){
         a letteris typed it capitalizes and saves it */}
           <TextInput style={styles.inputBoxTxt}placeholder = "Helder"
           value={Name}
-          OnChangeText={newText=> SetName(capitalize(newText))}
+          onChangeText={newText=> setName(capitalize(newText))}
           autoCapitalize= 'words' />
 
           <Text style={styles.headingTxt}>Enter your surname:</Text>
@@ -147,15 +147,14 @@ function ViewDetails ({ navigation, route }: ViewDetailsProps){
   const[iSelected, setIntValue]=useState(0);
   // const [imageBlock, setImage] = useState<ImageSourcePropType | undefined>(undefined);
   const [blockArray] = useState<ImageSourcePropType[]>([
-    undefined
     require('./images/react_native.png'),
     require('./images/kotlin.png'),
-    require('./html.css.jpg'),
+    require('./images/html.css.jpg'),
   ]);
 
 
   return (
-    <view style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <View style={{flex: 0, alignItems: 'center', justifyContent:'center'}}>
       <Text style={{fontWeight: 'bold', fontSize: 25}}>welcome{NameGet}{SurnameGet}</Text>
       <Text>Please choose a language:</Text>
@@ -165,10 +164,10 @@ function ViewDetails ({ navigation, route }: ViewDetailsProps){
       <View style={styles.radioGroup}>
         <View style={styles.radioButton}>
           <RadioButton.Android
-            value="1"
-            status={selectedValue == "1" ? 'checked': 'unchecked'}
+            value="0"
+            status={selectedValue == "0" ? 'checked': 'unchecked'}
 
-            onPress={() => setSelectedValue('1')}
+            onPress={() => setSelectedValue('0')}
           
             color= "#ff0080"
           />
@@ -179,28 +178,50 @@ function ViewDetails ({ navigation, route }: ViewDetailsProps){
         <View style={styles.radioButton}>
           <RadioButton.Android
             value="1"
-            status={selectedValue == "2" ? 'checked': 'unchecked'}
+            status={selectedValue == "1" ? 'checked': 'unchecked'}
 
-            onPress={() => setSelectedValue('2')}
+            onPress={() => setSelectedValue('1')}
           
             color= "#ff0080"
           />
           <Text style={styles.radioLabel}>Kotlin</Text>
         
-        </View>
-        <View style={styles.radioButton}>
+         </View>
+         <View style={styles.radioButton}>
           <RadioButton.Android
-            value="1"
-            status={selectedValue == "3" ? 'checked': 'unchecked'}
+              value="2"
+              status={selectedValue == "2" ? 'checked': 'unchecked'}
 
-            onPress={() => setSelectedValue('3')}
+              onPress={() => setSelectedValue('2')}
           
-            color= "#ff0080"
-          />
+              color= "#ff0080"
+           />
           <Text style={styles.radioLabel}>HTML-CSS</Text>
+          </View>
         </View>
+       
+       {/* button section */}
+       <View style = {{flex: 1}}>
+          <Text style ={{fontWeight: "bold", 
+            flex:0, 
+            paddingTop: 30, 
+            justifyContent: "center",
+            textAlign: "center", 
+            alignItems: "center"
+          }}>
+            Generate Chosen Language Image
+         </Text>
+
+         <Button title = "Display"
+            onPress={() => {setIntValue(Number (selectedValue));
+         }}/>
+         <View style = {styles.container}>
+            <Image source={ blockArray[iSelected]} style ={styles. viewImage}></Image>
+         </View>
+       </View>
+   
       </View>
-    </view>
+    
   );
 };
 
@@ -211,7 +232,7 @@ function ListSkills({navigation, route}: ListSkillsProps){
   const renderSkills = () => {
     const arrOutput = [];
 
-    for (let i = 0; i < Skills.length; i++){
+    for (let i = 0; i < skills.length; i++){
       arrOutput.push(
         <Text style={styles.skillText}>
           {skills[i]}
@@ -298,7 +319,7 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     color: "blue",
     fontWeight: 'bold',
-    fontSize: 35,
+    fontSize: 30,
     textAlign: 'center'
   },
 
