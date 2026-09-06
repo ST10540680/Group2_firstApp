@@ -78,23 +78,36 @@ function Mainscreen({navigation}: MainscreenProps){
       {/* lets you scroll if needed */}
     <SafeAreaView>
       <ScrollView>
+        {/* "require()" will grab a picture from my project folder */}
       <Image style={styles.mainImg}
       source={require('./images/cupcake.jpg')}/>
 
       <Text style={styles.welcomeTxt}>welcome to my app!</Text>
 
       <FadeInView>
-        <Text style={styles.redTxt}>{Error}</Text>
+
+        {/* if the error is true it display in red if not then nothing */}
+        <Text style={Error? styles.redTxt: styles.blank}>
+          {Error? "Please enter your info": ""}
+        </Text>
+
         <View style={styles.InputFlex}>
-          <Text style= {styles.headingTxt}>Enter your name:</Text>
-          <TextInput style={styles.inputBoxTxt} 
-          placeholder = "Helder"
-          OnChangeText={(text)=> SetName(text)}/>
+        <Text style= {styles.headingTxt}>Enter your name:</Text>
+
+        {/* this box shows whatever "Name" is currently in and everytime
+        a letteris typed it capitalizes and saves it */}
+          <TextInput style={styles.inputBoxTxt}placeholder = "Helder"
+          value={Name}
+          OnChangeText={newText=> SetName(capitalize(newText))}
+          autoCapitalize= 'words' />
 
           <Text style={styles.headingTxt}>Enter your surname:</Text>
+
           <TextInput style={styles. inputBoxTxt}
           placeholder = "Filipe"
-          onChangeText={(text)=> setSurname(text)}/>
+          value={Surname}
+          onChangeText={newText=> setSurname(capitalize(newText))}
+          autoCapitalize='words'/>
         </View>
      </FadeInView>
      
@@ -102,47 +115,91 @@ function Mainscreen({navigation}: MainscreenProps){
       <Button title= "Add User"
       onPress= {() => {
 
-        if (isEmpty(Name) || isEmpty(Surname) == false)
-        {
+        //Can only proceed if both the boxes have something typed in 
+        if (isEmpty(Name) || isEmpty(Surname) == false){
+
+          //Proceed to the "View" screen and with the name and surname
           navigation.navigate('View', {
             NameSend : Name,
             SurnameSend : Surname 
           });
-          setError('');
+          setError(false);
         }
         else{
-          setError('Fields are empty!');
+          //makes the "please fill this in" text show
+          setError(true);
         }
 
-        console.log("Name:" + Name + "Surname: " + Surname);
       }}/>
-
       <StatusBar style="auto" />
       </ScrollView>
       </SafeAreaView>
+
     </View>
-  );
+  )
 }
 
 function ViewDetails ({ navigation, route }: ViewDetailsProps){
   
   const NameGet = route.params.NameSend;
-  const SurnameGet = route.params.surnameSend;
-
+  const SurnameGet = route.params.SurnameSend;
+  const[selectedValue, setSelectedValue ]=useState('0');
   const[iSelected, setIntValue]=useState(0);
-  const[iSelected, setSelectedValue]=useState('0');
-
+  // const [imageBlock, setImage] = useState<ImageSourcePropType | undefined>(undefined);
   const [blockArray] = useState<ImageSourcePropType[]>([
     undefined
-    require('./images/react.native.png'),
+    require('./images/react_native.png'),
     require('./images/kotlin.png'),
     require('./html.css.jpg'),
   ]);
 
+
   return (
     <view style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Name: {NameGet}</Text>
-      <Text> Surname: {SurnameGet}</Text>
+      <View style={{flex: 0, alignItems: 'center', justifyContent:'center'}}>
+      <Text style={{fontWeight: 'bold', fontSize: 25}}>welcome{NameGet}{SurnameGet}</Text>
+      <Text>Please choose a language:</Text>
+    </View>
+
+    <View style={styles.radioContainer}>
+      <View style={styles.radioGroup}>
+        <View style={styles.radioButton}>
+          <RadioButton.Android
+            value="1"
+            status={selectedValue == "1" ? 'checked': 'unchecked'}
+
+            onPress={() => setSelectedValue('1')}
+          
+            color= "#ff0080"
+          />
+          <Text style={styles.radioLabel}>React Native</Text>
+        </View>
+        
+      </View>
+        <View style={styles.radioButton}>
+          <RadioButton.Android
+            value="1"
+            status={selectedValue == "2" ? 'checked': 'unchecked'}
+
+            onPress={() => setSelectedValue('2')}
+          
+            color= "#ff0080"
+          />
+          <Text style={styles.radioLabel}>Kotlin</Text>
+        
+        </View>
+        <View style={styles.radioButton}>
+          <RadioButton.Android
+            value="1"
+            status={selectedValue == "3" ? 'checked': 'unchecked'}
+
+            onPress={() => setSelectedValue('3')}
+          
+            color= "#ff0080"
+          />
+          <Text style={styles.radioLabel}>HTML-CSS</Text>
+        </View>
+      </View>
     </view>
   );
 };
