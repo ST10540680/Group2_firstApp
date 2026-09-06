@@ -4,6 +4,7 @@ import {Children, ReactNode, useEffect, useRef, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator, NativeStackScreenProps} from '@react-navigation/native-Stack;
 import { ImageSourcePropType } from 'react-native/types_generated/index';
+import {RadioButton} from 'react-native-paper'
 
 type RootStackParamList = {
   Home: Undefined;
@@ -33,10 +34,15 @@ type RootStackParamList = {
     'ListSkills'
     >;
 
+// this is the first thing that gets displayed when app opens
 export default function App() {
+
   return (
+    //everything that is related to navigation has to stay inside of this
     <NavigationContainer>
       <Stack.Navigator>
+        {/*this tells the app that the "Home" screen is showing the Mainscreen component and the "view" screen
+        is showing the viewDetails component */}
         <Stack.Screen name = "Home" component ={Mainscreen}/>
         <Stack.Screen name = "View" component ={ViewDetails}/>
         <Stack.Screen name = "ListSkills" component ={ListSkills}/>
@@ -45,14 +51,31 @@ export default function App() {
   )
 }
 
+//this is the home screen and the "navigation" is a remote control that allows you to navigate to 
+//to the other screen
 function Mainscreen({navigation}: MainscreenProps){
-  const [Name, setName] = useState()
-  const [Surname, setSurname] = useState('');
 
-  console. log("App Works!");
+  //useState is how the component will remenber something
+  //name is the current value and setName is the way to change it
+  //Note for self: always use setName and never change Name directly
+  const [Name, setName] = useState('')
+  const [Surname, setSurname] = useState('');
+  const [Error, setError] = useState(false)
+
+  //send a message to the terminal to let you know if the app works
+  console.log("App Works!");
+  
+  // a normal function that makes the first letter capital
+  const capitalize = (text: string) => {
+    if (text.length === 0) return text;
+    return text.charAt(0).toUpperCase() + text.slice(1);
+  };
+
 
   return(
+
     <View>
+      {/* lets you scroll if needed */}
     <SafeAreaView>
       <ScrollView>
       <Image style={styles.mainImg}
